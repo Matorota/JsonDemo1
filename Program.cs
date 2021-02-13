@@ -12,15 +12,16 @@ namespace JsonDemo2
     {
         static void Main(string[] args)
         {
-            var location = new Location
-            {
-                X = 5,
-                Y = 6
-            };
+            var jsonText = File.ReadAllText($"{AppDomain.CurrentDomain.BaseDirectory}person.json");
 
-            var json = JsonConvert.SerializeObject(location);
+            var person = JsonConvert.DeserializeObject<Person>(jsonText);
 
-            File.WriteAllText($"{AppDomain.CurrentDomain.BaseDirectory}location.json",json);
+            Console.WriteLine(CheckedAge(person.Age));
+            Console.ReadKey();
+        }
+        static bool CheckedAge(int age)
+        {
+            return age > 18;
         }
     }
 
@@ -28,5 +29,15 @@ namespace JsonDemo2
     {
         public int X { get; set; }
         public int Y { get; set; }
+    }
+    public class Person
+    {
+        [JsonProperty("id")]
+        public int Id { get; set; }
+        [JsonProperty("fullname")]
+        public string Fullname { get; set; }
+        [JsonProperty("age")]
+        public int Age { get; set; }
+
     }
 }
